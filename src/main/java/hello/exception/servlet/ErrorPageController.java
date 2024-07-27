@@ -1,8 +1,10 @@
 package hello.exception.servlet;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -46,8 +48,12 @@ public class ErrorPageController {
         log.info("API errorPage 500");
 
         Map<String, Object> result = new HashMap<>();
-        Exception ex = (Exception) request.getAttribute(ERROR_EXCEPTION);
-        result.put()
+        Exception ex = (Exception) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
+        result.put("status", request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE));
+        result.put("message", ex.getMessage());
+
+        Integer statusCode = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+        return new ResponseEntity(result, HttpStatus.valueOf(statusCode));
     }
 
     private void printErrorInfo(HttpServletRequest request) {
