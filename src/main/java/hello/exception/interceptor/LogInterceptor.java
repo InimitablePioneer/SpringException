@@ -27,6 +27,7 @@ public class LogInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
                                 Object handler, Exception ex) throws Exception {
+        //log.info("메렁");
         String requestURI = request.getRequestURI();
         String logId = (String)request.getAttribute(LOG_ID);
         log.info("RESPONSE [{}][{}][{}]", logId, request.getDispatcherType(), requestURI);
